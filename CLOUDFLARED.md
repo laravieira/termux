@@ -19,7 +19,7 @@ cloudflared login
 - Copy the token on the docker command;
 - Execute the connector:
 ```shell
-cloudflare tunnel --no-autoupdate run --token [copied-token]
+cloudflared tunnel --no-autoupdate run --token [copied-token]
 ```
 - See if the tunnel status change to `HEALTHY`;
 
