@@ -176,6 +176,7 @@ ServerRoot "/data/data/com.termux/files/usr"
 
 Listen 8080
 Listen 8081
+
 LoadModule mpm_prefork_module libexec/apache2/mod_mpm_prefork.so
 LoadModule authn_file_module libexec/apache2/mod_authn_file.so
 LoadModule authn_core_module libexec/apache2/mod_authn_core.so
