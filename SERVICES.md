@@ -18,7 +18,7 @@ tail -f $PREFIX/var/log/sv/[service]/current # open logs
 ### Create a Service
 Create the service folder and its log folder:
 ```shell
-mkdir -p $PREFIX/var/service/[srevice]/log
+mkdir -p $PREFIX/var/service/[service]/log
 ```
 Create a link of termux-services logger to your service log folder:
 ```shell
