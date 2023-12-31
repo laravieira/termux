@@ -22,13 +22,13 @@ sv down mysqld # stop the service
 
 ### Coonect to mysql as root
 ```shell
-mysql -u root -p
+mariadb -u root -p
 ```
 
 ### Create database/user and grant user access to database
 ```sql
 CREATE DATABASE [db-name];
-CREATE USER '[user-name]'@'%' IDENTIFYED BY '[user-password]';
+CREATE USER '[user-name]'@'%' IDENTIFIED BY '[user-password]';
 GRANT ALL PRIVILEGES ON [db-name].* TO '[user-name]'@'%';
 FLUSH PRIVILEGES;
 ```

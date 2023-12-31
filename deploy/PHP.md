@@ -47,7 +47,7 @@ mysql -u root -p
 ```
 ```sql
 CREATE DATABASE [db-name];
-CREATE USER '[user-name]'@'%' IDENTIFYED BY '[user-password]';
+CREATE USER '[user-name]'@'%' IDENTIFIED BY '[user-password]';
 GRANT ALL PRIVILEGES ON [db-name].* TO '[user-name]'@'%';
 FLUSH PRIVILEGES;
 ```

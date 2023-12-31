@@ -139,33 +139,32 @@ error_reporting = -1
 ```
 
 ### Configure V-Hosts
-Load the `httpd-vhosts.conf` on the end of `httpd.conf`:
+- Create a file for your website at `$PREFIX/etc/apache2/conf.d/*.conf`;
+- Termux don't resolve hostnames, so use ports to diferenciate the v-hosts;
+- Configure the v-hosts, always put a `ServerName`, otherwise u can get redirect problems;
+- If u want, delete the `$PREFIX/etc/apache2/conf.d/placeholder.conf`, as it can confuse u;
+- If u want custom log files, u also need to create those files or httpd will break;
+- Its good to place the port number on the file name, makes easy to know which ports are being used;
 
-`$PREFIX/etc/apache2/httpd.conf`
+`$PREFIX/etc/apache2/conf.d/8081.[project-b].conf`
 ```properties
-# Virtual hosts
-Include etc/apache2/extra/httpd-vhosts.conf
-```
-Termux don't resolve hostnames, so use ports to diferenciate the v-hosts:
-
-`$PREFIX/etc/apache2/httpd.conf`
-```properties
-Listen 8080
 Listen 8081
-```
-Configure the v-hosts, always put a `ServerName`, otherwise u can get redirect problems.
-
-`$PREFIX/etc/apache2/extra/httpd-vhosts.conf`
-```properties
-<VirtualHost *:8080>
-    DocumentRoot "/data/data/com.termux/files/home/www/"
-</VirtualHost>
-
 <VirtualHost *:8081>
     DocumentRoot "/data/data/com.termux/files/home/[project-b]/public_html"
     ServerName [project-b.com]
+    ServerAdmin mail@example.com
+    ErrorLog "$PREFIX/var/log/apache2/[project-b]/error.log"
+    TransferLog "$PREFIX/var/log/apache2/[project-b]/transfer.log"
+    CustomLog "$PREFIX/var/log/apache2/[project-b]/access.log" common
     SetEnv ENV production
 </VirtualHost>
+```
+- If u want custom log files, u also need to create those files or httpd will break;
+```shell
+mkdir $PREFIX/var/log/apache2/[project-b]
+touch $PREFIX/var/log/apache2/[project-b]/error.log
+touch $PREFIX/var/log/apache2/[project-b]/transfer.log
+touch $PREFIX/var/log/apache2/[project-b]/access.log
 ```
 All the `DocumentRoot` should be folders inside the `<Directory "/data/data/com.termux/files/home">` set on the `httpd.conf` file and all the v-hosts will follow those directory permissions.
 
@@ -175,7 +174,6 @@ All the `DocumentRoot` should be folders inside the `<Directory "/data/data/com.
 ServerRoot "/data/data/com.termux/files/usr"
 
 Listen 8080
-Listen 8081
 
 LoadModule mpm_prefork_module libexec/apache2/mod_mpm_prefork.so
 LoadModule authn_file_module libexec/apache2/mod_authn_file.so
@@ -242,7 +240,7 @@ DocumentRoot "/data/data/com.termux/files/home/www"
 </Directory>
 
 <IfModule dir_module>
-    DirectoryIndex index.php, index.html
+    DirectoryIndex index.php index.html
 </IfModule>
 
 <FilesMatch "\.(php*|phtm|phtml|asp|aspx)$">
@@ -291,8 +289,6 @@ LogLevel warn
     AddType application/x-gzip .gz .tgz
 </IfModule>
 
-Include etc/apache2/extra/httpd-vhosts.conf
-
 <IfModule proxy_html_module>
     Include etc/apache2/extra/proxy-html.conf
 </IfModule>
@@ -310,12 +306,9 @@ display_errors = off
 display_startup_errors = off
 error_reporting = -1
 ```
-`$PREFIX/etc/apache2/extra/httpd-vhosts.conf`
+`$PREFIX/etc/apache2/conf.d/[project-b].conf`
 ```properties
-<VirtualHost *:8080>
-    DocumentRoot "/data/data/com.termux/files/home/www/"
-</VirtualHost>
-
+Listen 8081
 <VirtualHost *:8081>
     DocumentRoot "/data/data/com.termux/files/home/[project-b]/public_html"
     ServerName [project-b.com]

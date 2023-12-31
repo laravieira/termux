@@ -8,5 +8,5 @@ First install Termux from F-Droid and open it.
 ### Things to do on your Termux
 ```shell
 pkg upgrade -y
-pkg install git nodejs php composer openjdk-17 -y
+pkg install git nodejs php composer openjdk-17 yarn wget -y
 ```
