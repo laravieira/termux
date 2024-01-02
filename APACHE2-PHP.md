@@ -129,13 +129,20 @@ Create the php.ini file.
 ```shell
 touch $PREFIX/lib/php.ini
 ```
-Disable all logs:
+Download a cacert.pem:
+```shell
+wget https://curl.se/ca/cacert.pem
+mv cacert.pem ~/.ssh/cacert.pem
+```
+Disable all logs and add cacert:
 
 `$PREFIX/lib/php.ini`
 ```properties
 display_errors = off
 display_startup_errors = off
 error_reporting = -1
+curl.cainfo=/data/data/com.termux/files/home/.ssh/cacert.pem
+openssl.cafile=/data/data/com.termux/files/home/.ssh/cacert.pem
 ```
 
 ### Configure V-Hosts
