@@ -32,7 +32,7 @@ node ./build/index.js
 
 ### Enable the service and start it
 ```shell
-sv-enable [project]
+sv enable [project]
 sv up [project]
 ```
 

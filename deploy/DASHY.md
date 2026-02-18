@@ -3,12 +3,12 @@ How to deploy the Dashy dashboard on the environment set by following this repos
 
 ### Download dashy
 ```shell
-cd ~
+cd ~/projects
 git clone https://github.com/Lissy93/dashy
 ```
 
 ### Update the config file
-`~/dahsy/public/conf.yml`
+`~/projects/dahsy/user-data/conf.yml`
 ```yaml
 pageInfo:
   title: Nexus Home Server
@@ -56,16 +56,18 @@ sections:
       collapsed: false
       hideForGuests: false
 ```
+If your config file references local icons, paste the into:
+`~/projects/dahsy/user-data/item-icons`
 
 ### Build the project
 ```shell
 yarn install --ignore-engines
-NODE_OPTIONS=--openssl-legacy-provider yarn build
+NODE_OPTIONS=--openssl-legacy-provider yarn --ignore-engines build
 ```
 
 ### Test it
 ```shell
-PORT=4001 yarn start
+PORT=4001 yarn --ignore-engines start
 ```
 
 ### Create a service for dashy
@@ -78,16 +80,16 @@ chmod +x $PREFIX/var/service/dashy/run
 `$PREFIX/var/service/dashy/run`
 ```shell
 #!/data/data/com.termux/files/usr/bin/sh
-cd ~/dashy
+cd ~/projects/dashy
 exec 2>&1
 PORT=4001 \
-yarn start
+yarn --ignore-engines start
 ```
 
 ### Enable the service and start it
 ```shell
-sv-enable [project]
-sv up [project]
+sv enable dashy
+sv up dashy
 ```
 
 ### Configure a public hostname on the Cloudflare Tunnel

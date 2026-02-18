@@ -34,9 +34,9 @@ pkill sshd # to stop
 
 ### Termux Services
 ```shell
-sv-enable sshd # enable as a service
-sv-reload sshd # reload configs
-sv-disable sshd # disable as a service
+sv enable sshd # enable as a service
+sv reload sshd # reload configs
+sv disable sshd # disable as a service
 sv up sshd # start the service
 sv down sshd # stop the service
 tail -f $PREFIX/var/log/sv/sshd/current # open logs

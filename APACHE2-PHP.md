@@ -11,7 +11,7 @@ pkill httpd
 ```
 Using termux-services:
 ```shell
-sv-enable httpd # enable as a service
+sv enable httpd # enable as a service
 sv up httpd # start the service
 sv down httpd # stop the service
 ```

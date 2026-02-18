@@ -8,11 +8,7 @@ pkg install cloudflared -y
 - Goto your [Zero Trust Painel](https://one.dash.cloudflare.com/);
 - Open the "Access" menu and goto "Tunnels";
 - Create a Tunnel;
-
-### Login to Cloudflare
-```shell
-cloudflared login
-```
+- Get the tunnel token from the snippets on the page;
 
 ### Connect to your tunnel
 - On your tunnel overview page, select "Docker";
@@ -38,7 +34,7 @@ exec cloudflared tunnel --no-autoupdate run --token [copied-token] 2>&1
 
 ### Enable the service and start it
 ```shell
-sv-enable cloudflare
+sv enable cloudflare
 sv up cloudflare
 ```
 

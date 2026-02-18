@@ -61,8 +61,8 @@ node app.js
 
 ### Enable the services and start them
 ```shell
-sv-enable mcsmanager-daemon
-sv-enable mcsmanager-painel
+sv enable mcsmanager-daemon
+sv enable mcsmanager-painel
 sv up mcsmanager-daemon
 sv up mcsmanager-painel
 ```

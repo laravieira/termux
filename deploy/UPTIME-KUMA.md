@@ -10,9 +10,9 @@ npm install node-gyp -g
 mkdir ~/.gyp && echo "{'variables':{'android_ndk_path':''}}" > ~/.gyp/include.gypi
 ```
 
-### Download Uptime Kuma on `~/` folder
+### Download Uptime Kuma on `~/projects` folder
 ```shell
-cd ~
+cd ~/projects
 git clone https://github.com/louislam/uptime-kuma.git
 cd uptime-kuma
 ```
@@ -25,7 +25,8 @@ npm run download-dist
 
 ### Build the sqlite3 package
 ```shell
-npm rebuild @louislam/sqlite3 --build-from-source --target_arch=arm64
+sed -i 's/static_cast<napi_typedarray_type>(-1)/static_cast<napi_typedarray_type>(0)/g' node_modules/@louislam/sqlite3/node_modules/node-addon-api/napi.h
+npm rebuild @louislam/sqlite3
 ```
 
 ### Change playwright platform checks
@@ -49,14 +50,14 @@ chmod +x $PREFIX/var/service/uptime-kuma/run
 `$PREFIX/var/service/uptime-kuma/run`
 ```shell
 #!/data/data/com.termux/files/usr/bin/sh
-cd ~/uptime-kuma
+cd ~/projects/uptime-kuma
 exec 2>&1
 node server/server.js
 ```
 
 ### Enable the service and start it
 ```shell
-sv-enable uptime-kuma
+sv enable uptime-kuma
 sv up uptime-kuma
 ```
 

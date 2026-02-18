@@ -7,9 +7,9 @@ After installing, restart the termux completly, for the daemon to start.
 
 ### Base Commands
 ```shell
-sv-enable [service] # enable as a service
-sv-reload [service] # reload configs
-sv-disable [service] # disable as a service
+sv enable [service] # enable as a service
+sv reload [service] # reload configs
+sv disable [service] # disable as a service
 sv up [service] # start the service
 sv down [service] # stop the service
 tail -f $PREFIX/var/log/sv/[service]/current # open logs
