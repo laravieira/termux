@@ -15,6 +15,7 @@ pkill mariadbd
 ```
 Using termux-services:
 ```shell
+rm $PREFIX/var/service/mysqld/down
 sv enable mysqld # enable as a service
 sv up mysqld # start the service
 sv down mysqld # stop the service
