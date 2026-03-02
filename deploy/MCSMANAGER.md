@@ -8,13 +8,25 @@ How to deploy the MCS Manager on the environment set by following this repositor
 ### Install the MCSManager from git
 [reference](https://github.com/MCSManager/MCSManager#linux)
 ```shell
-mkdir ~/mcsmanager
-cd ~/mcsmanager
+mkdir ~/projects/mcsmanager
+cd ~/projects/mcsmanager
 
 wget https://github.com/MCSManager/MCSManager/releases/latest/download/mcsmanager_linux_release.tar.gz
 tar -zxf mcsmanager_linux_release.tar.gz
 
-./install-dependency.sh
+mv mcsmanager/* .
+rm -r mcsmanager mcsmanager_linux_release.tar.gz
+chmod 775 install.sh
+./install.sh
+mv daemon/lib/7z_linux_arm64 daemon/lib/7z_android_arm64
+mv daemon/lib/file_zip_linux_arm64 daemon/lib/file_zip_android_arm64
+mkdir $PREFIX/tmp/mcsmanager-instance-pipe
+git clone https://github.com/MCSManager/pty.git
+cd pty
+pkg install golang -y
+GOARM64=v8.0 go build -o pty_android_arm64 main.go
+mv pty_android_arm64 ../daemon/lib/pty_android_arm64
+cd ~/projects/mcsmanager
 ```
 
 ### Test the service

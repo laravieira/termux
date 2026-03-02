@@ -4,7 +4,7 @@ How to deploy a Java Project on the environment set by following this repository
 ### Install Java
 ###### Termux has a limited version of Java.
 ```shell
-pkg install openjdk-17 -y
+pkg install openjdk-25 -y
 ```
 You can use a complete version of Java by installing Ubuntu inside Termux.
 - [Hosting Minecraft Server on Termux with Ubuntu](https://www.reddit.com/r/Android/comments/czau7s/hosting_a_minecraft_server_on_android/)
