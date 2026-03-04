@@ -69,3 +69,18 @@ To start the sevices at device boot, change the boot file to:
 termux-wake-lock
 . $PREFIX/etc/profile
 ```
+
+### Profile aliases
+`~/.bashrc`
+```shell
+alias sv-log='f() { tail -f $PREFIX/var/log/sv/$1/current; }; f'
+alias sv-run='f() { nano $PREFIX/var/service/$1/run; }; f'
+```
+You can append to logs with:
+```shell
+sv-log [service]
+```
+You can edit the run file with:
+```shell
+sv-run [service]
+```
