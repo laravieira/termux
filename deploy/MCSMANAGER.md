@@ -4,6 +4,7 @@ How to deploy the MCS Manager on the environment set by following this repositor
 ### Requirements
 - NodeJS
 - Java
+- Golang
 
 ### Install the MCSManager from git
 [reference](https://github.com/MCSManager/MCSManager#linux)
@@ -18,8 +19,11 @@ mv mcsmanager/* .
 rm -r mcsmanager mcsmanager_linux_release.tar.gz
 chmod 775 install.sh
 ./install.sh
-mv daemon/lib/7z_linux_arm64 daemon/lib/7z_android_arm64
-mv daemon/lib/file_zip_linux_arm64 daemon/lib/file_zip_android_arm64
+```
+Fix platform differences
+```shell
+cp daemon/lib/7z_linux_arm64 daemon/lib/7z_android_arm64
+cp daemon/lib/file_zip_linux_arm64 daemon/lib/file_zip_android_arm64
 mkdir $PREFIX/tmp/mcsmanager-instance-pipe
 git clone https://github.com/MCSManager/pty.git
 cd pty
@@ -27,6 +31,7 @@ pkg install golang -y
 GOARM64=v8.0 go build -o pty_android_arm64 main.go
 mv pty_android_arm64 ../daemon/lib/pty_android_arm64
 cd ~/projects/mcsmanager
+rm -rf pty mcsmanager_linux_release.tar.gz
 ```
 
 ### Test the service
@@ -135,3 +140,11 @@ You will see two errors while executing the server
 - Failed retrieving info for group processor
 - Failed retrieving info for group memory
 You can just ignore them, they are because you don't have root access to fetch CPU and Memory info.
+
+### Use custom java version
+You can check [JAVA.md](./JAVA.md#have-other-java-version-to-use-without-nedding-to-install) on how to download custom java versions without installing.
+
+To use the custom java version on MCSManager, type the full path excluding the 'bin/java' part, like:
+```
+/data/data/com.termux/files/home/projects/openjdk21/
+```

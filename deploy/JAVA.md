@@ -32,3 +32,39 @@ Enable the service and start it
 ```shell
 sv enable [project] && sv up [project]
 ```
+
+### Have other java version to use without nedding to install
+Java 21
+```
+mkdir ~/projects/openjdk21
+cd ~/projects/openjdk21
+pkg install wget zip unzip -y
+wget https://github.com/zryyoung/openjdk-Termux/releases/download/openjdk-21.0.1/openjdk-21.0.1-aarch64.zip
+unzip openjdk-21.0.1-aarch64.zip
+mv openjdk-21.0.1/* .
+rm -r openjdk-21.0.1-aarch64.zip openjdk-21.0.1
+cd ~
+~/projects/openjdk21/bin/java --version
+```
+Java 17
+```
+mkdir ~/projects/openjdk17
+cd ~/projects/openjdk17
+pkg install wget xz-utils -y
+wget https://github.com/zryyoung/openjdk-Termux/releases/download/openjdk-17/openjdk-17-aarch64.tar.xz
+tar -xf openjdk-17-aarch64.tar.xz
+rm openjdk-17-aarch64.tar.xz
+cd ~
+~/projects/openjdk17/bin/java --version
+```
+Java 11
+```
+mkdir ~/projects/openjdk11
+cd ~/projects/openjdk11
+pkg install wget zip unzip -y
+wget https://github.com/zryyoung/openjdk-Termux/releases/download/openjdk-11.0.12/openjdk-11.0.12-aarch64.zip
+unzip openjdk-11.0.12-aarch64.zip
+rm openjdk-11.0.12-aarch64.zip
+cd ~
+~/projects/openjdk11/bin/java --version
+```

@@ -8,7 +8,7 @@ First install Termux from F-Droid and open it.
 ### Things to do on your Termux
 ```shell
 pkg upgrade -y
-pkg install git nodejs yarn php composer openjdk-17 maven yarn wget -y
+pkg install git nodejs yarn php composer openjdk-25 maven yarn wget -y
 ```
 
 ### Disable All Performance Controls
@@ -17,8 +17,9 @@ On Galaxy phones you can:
 - [x] Disable Adaptive battery
 - [x] Disable Put unused apps to sleep
 - [x] Set power mode to high performance
-- [x] Disable adaptive poser saving
+- [x] Disable adaptive power saving
 - [x] Exclude Termux from memory cleaning
-- [x] Lock Termux app
 - [x] With developer debbug, set `adb shell settings put global settings_enable_monitor_phantom_procs false`
+- [x] In developer options, disable "Logger buffer"
+- [x] Install Termux:Float and keep the floating window always open on screen
 - [x] Increase virtual memory
