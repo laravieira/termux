@@ -58,7 +58,7 @@ chmod +x $PREFIX/var/service/mcsmanager-daemon/run
 `$PREFIX/var/service/mcsmanager-daemon/run`
 ```shell
 #!/data/data/com.termux/files/usr/bin/sh
-cd ~/mcsmanager/daemon
+cd ~/projects/mcsmanager/daemon
 exec 2>&1
 node app.js
 ```
@@ -71,7 +71,7 @@ chmod +x $PREFIX/var/service/mcsmanager-painel/run
 `$PREFIX/var/service/mcsmanager-painel/run`
 ```shell
 #!/data/data/com.termux/files/usr/bin/sh
-cd ~/mcsmanager/web
+cd ~/projects/mcsmanager/web
 exec 2>&1
 node app.js
 ```

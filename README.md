@@ -8,7 +8,13 @@ First install Termux from F-Droid and open it.
 ### Things to do on your Termux
 ```shell
 pkg upgrade -y
-pkg install git nodejs yarn php composer openjdk-25 maven yarn wget -y
+pkg install git nodejs yarn php composer openjdk-25 maven wget -y
+```
+
+### Enable storage access
+On your phone, type:
+```shell
+termux-setup-storage
 ```
 
 ### Disable All Performance Controls
