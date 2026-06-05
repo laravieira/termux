@@ -4,12 +4,13 @@ How to deploy N8N on the environment set by following this repository guides.
 ### Install required packages
 ```shell
 pkg update && pkg upgrade -y
-pkg install nodejs-lts -y
+pkg install nodejs-lts python -y
+pip install setuptools
 ```
 
 ### Download N8N globally
 ```shell
-npm install n8n -g
+NODE_OPTIONS="--max-old-space-size=1024" JOBS=1 npm install n8n -g --package-lock=false
 ```
 
 ### Create postgres database and user

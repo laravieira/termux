@@ -38,6 +38,7 @@ sv up postgresql
 ```shell
 createdb [db-name]
 psql [db-name]
+dropdb [db-name]
 ```
 Type into pg console:
 ```sql
