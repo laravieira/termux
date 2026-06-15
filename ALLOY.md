@@ -30,7 +30,7 @@ GOOS=android GOARCH=arm64 go build -o alloy .
 ```
 After build, you can transfer the file to your phone
 ```shell
-scp -P 8022 alloy [phone-user]@[phone-ip]:~/projects/alloy/alloy
+scp -P 8022 alloy [phone-ip]:~/projects/alloy/alloy
 ```
 You can than run alloy on your phone
 ```shell
@@ -38,6 +38,7 @@ cd ~/projects/alloy
 chmod +x alloy
 ./alloy --version
 ```
+###### If your android kernel is too old, you may require sudo to run alloy at all
 
 ### Enable as service
 ```shell
@@ -50,8 +51,7 @@ chmod +x $PREFIX/var/service/alloy/run
 ```shell
 #!/data/data/com.termux/files/usr/bin/sh
 cd ~/projects/alloy
-exec 2>&1
-./alloy run config.alloy
+exec ./alloy run config.alloy 2>&1
 ```
 Enable the service and start it
 ```shell
@@ -201,5 +201,76 @@ loki.process "sys" {
   }
 
   forward_to = [loki.write.lostworld.receiver]
+}
+```
+
+### Disk usage without root
+```
+pkg install cronie -y
+rm $PREFIX/var/service/crond/down
+sv enable crond
+sv up crond
+mkdir ~/projects/alloy/metrics
+touch ~/projects/alloy/disk.sh
+chmod +x ~/projects/alloy/disk.sh
+```
+-´´´p0
+`~/projects/alloy/disk.sh`
+```shell
+#!/data/data/com.termux/files/usr/bin/bash
+
+OUTFILE="$HOME/projects/alloy/metrics/disk_metrics.prom"
+mkdir -p "$(dirname "$OUTFILE")"
+TMP="$OUTFILE.tmp"
+
+echo "# HELP node_filesystem_size_bytes Filesystem size in bytes" > "$TMP"
+echo "# TYPE node_filesystem_size_bytes gauge" >> "$TMP"
+echo "# HELP node_filesystem_avail_bytes Filesystem space available in bytes" >> "$TMP"
+echo "# TYPE node_filesystem_avail_bytes gauge" >> "$TMP"
+echo "# HELP node_filesystem_used_bytes Filesystem space used in bytes" >> "$TMP"
+echo "# TYPE node_filesystem_used_bytes gauge" >> "$TMP"
+
+# df -P gives POSIX portable output: Filesystem, 512B-blocks, Used, Available, Use%, Mounted on
+df -P | tail -n +2 | while read -r fs blocks used avail pct mount; do
+    [ "$blocks" -eq 0 ] && continue
+    case "$mount" in
+        /apex/*|/proc|/sys|/dev|/acct|/mnt/vendor/*|/storage/emulated) continue ;;
+    esac
+    case "$fs" in
+        tmpfs|none|overlay|rootfs) continue ;;
+    esac
+
+    size_bytes=$(( blocks * 512 ))
+    used_bytes=$(( used * 512 ))
+    avail_bytes=$(( avail * 512 ))
+    labels="device=\"$fs\",mountpoint=\"$mount\",fstype=\"unknown\""
+    echo "node_filesystem_size_bytes{$labels} $size_bytes" >> "$TMP"
+    echo "node_filesystem_avail_bytes{$labels} $avail_bytes" >> "$TMP"
+    echo "node_filesystem_used_bytes{$labels} $used_bytes" >> "$TMP"
+done
+
+mv "$TMP" "$OUTFILE"
+```
+
+Add to crontab -e
+```shell
+* * * * * $HOME/projects/alloy/disk.sh
+```
+
+Add to `config.alloy`
+```json
+prometheus.exporter.unix "disk" {
+  set_collectors = ["textfile"]
+  textfile {
+    directory = "/data/data/com.termux/files/home/projects/alloy/metrics"
+  }
+}
+
+prometheus.scrape "disk_scrape" {
+  targets         = prometheus.exporter.unix.disk.targets
+  forward_to      = [prometheus.relabel.system.receiver]
+  job_name        = "manager"
+
+  scrape_interval = "30s"
 }
 ```
